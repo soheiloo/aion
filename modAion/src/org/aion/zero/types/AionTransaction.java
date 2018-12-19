@@ -206,7 +206,7 @@ public class AionTransaction extends AbstractTransaction {
         }
         return nonce == null ? ZERO_BYTE_ARRAY : nonce;
     }
-    
+
     public BigInteger getNonceBI() {
         return new BigInteger(1, getNonce());
     }
@@ -288,7 +288,7 @@ public class AionTransaction extends AbstractTransaction {
         return signature;
     }
 
-    public AionAddress getContractAddress() {
+    public Address getContractAddress() {
         if (!this.isContractCreationTransaction()) {
             return null;
         }
@@ -313,7 +313,7 @@ public class AionTransaction extends AbstractTransaction {
             rlpParse();
         }
 
-        //TODO: all this is a temporary solution.
+        // TODO: all this is a temporary solution.
         if (this.to == null) {
             return true;
         }
@@ -499,7 +499,12 @@ public class AionTransaction extends AbstractTransaction {
             String to, BigInteger amount, BigInteger nonce, long nrg, long nrgPrice)
             throws Exception {
         return new AionTransaction(
-                nonce.toByteArray(), AionAddress.wrap(to), amount.toByteArray(), null, nrg, nrgPrice);
+                nonce.toByteArray(),
+                AionAddress.wrap(to),
+                amount.toByteArray(),
+                null,
+                nrg,
+                nrgPrice);
     }
 
     @Override
