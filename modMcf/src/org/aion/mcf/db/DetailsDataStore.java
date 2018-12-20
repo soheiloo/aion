@@ -39,6 +39,7 @@ import static org.aion.base.util.ByteArrayWrapper.wrap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -145,8 +146,9 @@ public class DetailsDataStore<
         syncLargeStorage();
 
         // Get everything from the cache and calculate the size.
-        Set<byte[]> keysFromSource = detailsSrc.keys();
-        for (byte[] keyInSource : keysFromSource) {
+        Iterator<byte[]> keysFromSource = detailsSrc.keys();
+        while (keysFromSource.hasNext()) {
+            byte[] keyInSource = keysFromSource.next();
             // Fetch the value given the keys.
             Optional<byte[]> valFromKey = detailsSrc.get(keyInSource);
 
@@ -163,8 +165,9 @@ public class DetailsDataStore<
 
     public void syncLargeStorage() {
 
-        Set<byte[]> keysFromSource = detailsSrc.keys();
-        for (byte[] keyInSource : keysFromSource) {
+        Iterator<byte[]> keysFromSource = detailsSrc.keys();
+        while (keysFromSource.hasNext()) {
+            byte[] keyInSource = keysFromSource.next();
 
             // Fetch the value given the keys.
             Optional<byte[]> rawDetails = detailsSrc.get(keyInSource);
@@ -189,7 +192,7 @@ public class DetailsDataStore<
         return storageDSPrune;
     }
 
-    public synchronized Set<ByteArrayWrapper> keys() {
+    public synchronized Iterator<ByteArrayWrapper> keys() {
         // TODO - @yao do we wanted a sorted set?
         Set<ByteArrayWrapper> keys = new HashSet<>();
         for (byte[] key : detailsSrc.keys()) {
